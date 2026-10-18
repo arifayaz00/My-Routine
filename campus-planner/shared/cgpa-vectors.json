@@ -1,0 +1,51 @@
+[
+  {
+    "name": "two semesters, rising SGPA (hand-checked: 38.25 / 10.5 = 3.6428)",
+    "policy": "latest",
+    "semesters": [
+      {"name": "S1", "courses": [{"course_name": "Math", "credits": 3, "grade": "A+"}, {"course_name": "Phy", "credits": 3, "grade": "B"}]},
+      {"name": "S2", "courses": [{"course_name": "DS", "credits": 3, "grade": "A"}, {"course_name": "Lab", "credits": 1.5, "grade": "A+"}]}
+    ],
+    "expect": {"sgpa": [3.5, 3.83], "cgpa_by_semester": [3.5, 3.64], "cgpa": 3.64, "total_credits": 10.5,
+               "earned_credits": 10.5, "badge": "blue", "status": "Improving"}
+  },
+  {
+    "name": "retake replaces the failed attempt (policy latest)",
+    "policy": "latest",
+    "semesters": [
+      {"name": "S1", "courses": [{"course_name": "Math", "credits": 3, "grade": "F"}, {"course_name": "Phy", "credits": 3, "grade": "A"}]},
+      {"name": "S2", "courses": [{"course_name": " math ", "credits": 3, "grade": "B"}]}
+    ],
+    "expect": {"sgpa": [1.88, 3.0], "cgpa_by_semester": [1.88, 3.38], "cgpa": 3.38, "total_credits": 6,
+               "earned_credits": 6, "badge": "amber", "status": "Improving"}
+  },
+  {
+    "name": "same data with policy all counts both attempts",
+    "policy": "all",
+    "semesters": [
+      {"name": "S1", "courses": [{"course_name": "Math", "credits": 3, "grade": "F"}, {"course_name": "Phy", "credits": 3, "grade": "A"}]},
+      {"name": "S2", "courses": [{"course_name": "Math", "credits": 3, "grade": "B"}]}
+    ],
+    "expect": {"sgpa": [1.88, 3.0], "cgpa_by_semester": [1.88, 2.25], "cgpa": 2.25, "total_credits": 9,
+               "earned_credits": 6, "badge": "red", "status": "Critical"}
+  },
+  {
+    "name": "P, W, I ignored; T adds earned credits only",
+    "policy": "latest",
+    "semesters": [
+      {"name": "S1", "courses": [
+        {"course_name": "Math", "credits": 3, "grade": "A"}, {"course_name": "Seminar", "credits": 1, "grade": "P"},
+        {"course_name": "Dropped", "credits": 3, "grade": "W"}, {"course_name": "Incomplete one", "credits": 3, "grade": "I"},
+        {"course_name": "Calc (transfer)", "credits": 3, "grade": "T"}]}
+    ],
+    "expect": {"sgpa": [3.75], "cgpa_by_semester": [3.75], "cgpa": 3.75, "total_credits": 3,
+               "earned_credits": 6, "badge": "blue", "status": "Good"}
+  },
+  {
+    "name": "empty",
+    "policy": "latest",
+    "semesters": [],
+    "expect": {"sgpa": [], "cgpa_by_semester": [], "cgpa": 0, "total_credits": 0, "earned_credits": 0,
+               "badge": "red", "status": "Good"}
+  }
+]

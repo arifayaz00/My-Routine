@@ -1,0 +1,24 @@
+# Render Blueprint: backend + PostgreSQL. Deploys on every push to main.
+services:
+  - type: web
+    name: campus-planner-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /api/health
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase: { name: campus-planner-db, property: connectionString }
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+databases:
+  - name: campus-planner-db
+    plan: free
